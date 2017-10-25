@@ -1,0 +1,43 @@
+﻿@using Translator2.Models
+@model Translator2.Models.TranslatorViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" rel="stylesheet" />
+
+<br />
+<h3>Drinking time</h3>
+@using (Html.BeginForm("Translate", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+<div class="row">
+    @Html.HiddenFor(u => u.OriginalTekst, Model.OriginalTekst)
+    @Html.LabelFor(u => u.OriginalTekst,Model.OriginalTekst, new { @id = "OriginalTekst", @class = "form-control" })
+</div>
+<div class="row">
+    @Html.DropDownListFor(m => m.Taal, Model.Talen, new { @class = "selectpicker", @id = "tegenstanderSelect" })
+</div>
+<div class="row">
+
+    <div class="input-group">
+
+        @Html.TextBoxFor(u => u.EersteTekst, Model.EersteTekst, new { @id = "EersteTekst", @class = "form-control" })
+        <span class="input-group-addon">-</span>
+        @Html.LabelFor(u => u.EersteVertaaldeTekst, Model.EersteVertaaldeTekst, new { @id = "EersteVertaaldeTekst", @class = "form-control" })
+    </div>
+</div>
+<div class="row">
+
+    <div class="input-group">
+
+        @Html.LabelFor(u => u.EersteVertaaldeTekst, Model.EersteVertaaldeTekst, new { @id = "EersteVertaaldeTekst2", @class = "form-control" })
+        <span class="input-group-addon">-</span>
+        @Html.LabelFor(u => u.NieuweTekst, Model.NieuweTekst, new { @id = "NieuweTekst", @class = "form-control" })
+    </div>
+</div>
+<div class="row">
+    <input type="submit" class="btn btn-success" value="Vertaal" />
+</div>
+}
