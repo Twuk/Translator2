@@ -14,7 +14,7 @@
 
 <div class="row">
     @Html.HiddenFor(u => u.OriginalTekst, Model.OriginalTekst)
-    @Html.LabelFor(u => u.OriginalTekst,Model.OriginalTekst, new { @id = "OriginalTekst", @class = "form-control" })
+  
 </div>
 <div class="row">
     @Html.DropDownListFor(m => m.Taal, Model.Talen, new { @class = "selectpicker", @id = "tegenstanderSelect" })
@@ -23,20 +23,26 @@
 
     <div class="input-group">
 
-        @Html.TextBoxFor(u => u.EersteTekst, Model.EersteTekst, new { @id = "EersteTekst", @class = "form-control" })
-        <span class="input-group-addon">-</span>
-        @Html.LabelFor(u => u.EersteVertaaldeTekst, Model.EersteVertaaldeTekst, new { @id = "EersteVertaaldeTekst", @class = "form-control" })
+        @Html.TextAreaFor(u => u.EersteTekst, new { @id = "EersteTekst"})
     </div>
+</div>
+
+<div class="row">
+
+    @Html.LabelFor(u => u.EersteVertaaldeTekst, Model.EersteVertaaldeTekst, new { @id = "EersteVertaaldeTekst", @class = "form-control" })
 </div>
 <div class="row">
 
     <div class="input-group">
-
-        @Html.LabelFor(u => u.EersteVertaaldeTekst, Model.EersteVertaaldeTekst, new { @id = "EersteVertaaldeTekst2", @class = "form-control" })
-        <span class="input-group-addon">-</span>
         @Html.LabelFor(u => u.NieuweTekst, Model.NieuweTekst, new { @id = "NieuweTekst", @class = "form-control" })
     </div>
 </div>
+
+    <p>@Model.OriginalTekst</p>
+
+    <h1> Vertaald naar</h1>
+
+    <p>@Model.NieuweTekst</p>
 <div class="row">
     <input type="submit" class="btn btn-success" value="Vertaal" />
 </div>
