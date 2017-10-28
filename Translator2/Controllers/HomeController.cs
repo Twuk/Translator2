@@ -28,17 +28,26 @@ namespace Translator2.Controllers
 
         public List<SelectListItem> FillTalen(List<SelectListItem> items)
         {
-            using (var reader = new System.IO.StreamReader(Server.MapPath("~") + "Talen.csv"))
+            try
             {
-
-                while (!reader.EndOfStream)
+                using (var reader = new System.IO.StreamReader(Server.MapPath("~") + "Talen.csv"))
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(';');
-                    items.Add(new SelectListItem { Text = values[0], Value = values[1] });
+
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        var values = line.Split(';');
+                        items.Add(new SelectListItem { Text = values[0], Value = values[1] });
+                    }
                 }
+                return items;
             }
-            return items;
+            catch (Exception ex)
+            {
+                return items;
+            }
+
+           
         }
 
         public ActionResult About()
