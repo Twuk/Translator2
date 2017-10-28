@@ -28,7 +28,7 @@ namespace Translator2.Controllers
 
         public List<SelectListItem> FillTalen(List<SelectListItem> items)
         {
-            using (var reader = new System.IO.StreamReader(@"C:\Users\tom.dorchain\source\repos\Translator2\Talen.csv"))
+            using (var reader = new System.IO.StreamReader(Server.MapPath("~") + "Talen.csv"))
             {
 
                 while (!reader.EndOfStream)
