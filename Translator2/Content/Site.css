@@ -22,3 +22,16 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.textarea-input {
+    width: 20em;
+    height: 15em;
+}
+.panel-green {
+    border-color: #5cb85c;
+}
+.panel-green > .panel-heading {
+    border-color: #5cb85c;
+    color: white;
+    background-color: #5cb85c;
+}

@@ -17,13 +17,10 @@ namespace Translator2.Controllers
         {
             TranslatorViewModel model = new TranslatorViewModel();
             model.OriginalTekst = "";
-            model.EersteTekst = "Eerste Tekst";
-            model.EersteVertaaldeTekst = "Eerste Vertaalde Tekst";
-            model.NieuweTekst = "Nieuwe Tekst";
             List<SelectListItem> items = new List<SelectListItem>();
             items = FillTalen(items);
             model.Talen = items;
-            return View(model);
+            return View("Index", model);
         }
 
         public List<SelectListItem> FillTalen(List<SelectListItem> items)
@@ -152,7 +149,7 @@ items.Add(new SelectListItem
             items.Add(new SelectListItem
 {
     Text = "French",
-    Value = " fr"
+    Value = "fr"
             });
             items.Add(new SelectListItem
 {
@@ -573,35 +570,60 @@ items.Add(new SelectListItem
             return items;
            
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
         
         [HttpPost]
         public ActionResult Translate(TranslatorViewModel model)
         {
-            TranslationClient client = TranslationClient.CreateFromApiKey("AIzaSyDEEPR1-xtzC3gV-oHJifs1X1iUtkZRqZY");
-            if (model.OriginalTekst == null || model.OriginalTekst == "")
+            if(model.OriginalTekst == null)
             {
-                model.OriginalTekst = model.EersteTekst;
+                return Index();
             }
-            model.EersteVertaaldeTekst = client.TranslateText(model.EersteTekst, model.Taal).TranslatedText;
+            TranslatedModel vertaald = new TranslatedModel();
+            TranslationClient client = TranslationClient.CreateFromApiKey("AIzaSyDEEPR1-xtzC3gV-oHJifs1X1iUtkZRqZY");
 
-            model.NieuweTekst =
-           client.TranslateText(model.EersteVertaaldeTekst, "nl").TranslatedText;
-            model.Talen = FillTalen(new List<SelectListItem>());
-            return View("Index",model);
+            List<string> oudeZin = model.OriginalTekst.Split(' ').ToList();
+            vertaald.EersteTekst = model.OriginalTekst;
+            vertaald.EersteVertaaldeTekst = client.TranslateText(model.OriginalTekst, model.Taal).TranslatedText;
+
+            vertaald.NieuweTekst = client.TranslateText(vertaald.EersteVertaaldeTekst, "nl").TranslatedText;
+            List<string> nieuweZin = vertaald.NieuweTekst.Split(' ').ToList();
+            List<int> slokken = aantalVerschillendeWoorden(oudeZin, nieuweZin);
+
+            vertaald.ZelfDrinken = slokken[0].ToString();
+            vertaald.Uitdelen = slokken[1].ToString();
+            return View("Uitkomst", vertaald);
+        }
+
+        public List<int> aantalVerschillendeWoorden(List<string> oudeZin, List<string> nieuweZin)
+        {
+            List<string> hulpZin = new List<string>();
+            int aantalDrinken = 0;
+            int uitDelen = 0;
+            foreach (string woord in oudeZin)
+            {
+                hulpZin.Add(woord);
+                if (nieuweZin.Contains(woord))
+                {
+                    hulpZin.Remove(woord);
+                    nieuweZin.Remove(woord);
+                    aantalDrinken++;
+                }
+            }
+
+            if(hulpZin.Count > 0)
+            {
+                uitDelen += hulpZin.Count;
+            }
+            /*
+            if(nieuweZin.Count > 0)
+            {
+                uitDelen += nieuweZin.Count;
+            }
+            */
+            List<int> slokken = new List<int>();
+            slokken.Add(aantalDrinken);
+            slokken.Add(uitDelen);
+            return slokken;
         }
     }
 }

@@ -11,39 +11,37 @@
 <h3>Drinking time</h3>
 @using (Html.BeginForm("Translate", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="form-group">
 
-<div class="row">
-    @Html.HiddenFor(u => u.OriginalTekst, Model.OriginalTekst)
-  
-</div>
-<div class="row">
-    @Html.DropDownListFor(m => m.Taal, Model.Talen, new { @class = "selectpicker", @id = "tegenstanderSelect" })
-</div>
-<div class="row">
+                @Html.DropDownListFor(m => m.Taal, Model.Talen, new { @class = "form-control", @id = "tegenstanderSelect" })
 
-    <div class="input-group">
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group">
+                @Html.TextAreaFor(u => u.OriginalTekst, new { @id = "OriginalTekst", @class = "textarea-input" })
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <input type="submit" class="btn btn-success btn-block" value="Vertaal" />
+        </div>
 
-        @Html.TextAreaFor(u => u.EersteTekst, new { @id = "EersteTekst"})
+        <hr class="divider"/>
+        
+
+        <div class="row">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Regels
+                </div>
+                <div class="panel-body">
+                    <p>Elk woord uit de originele zin die er nog staat -> ZELF DRINKEN</p>
+                    <p>Elk woord uit de originele zin die er niet meer staat of aangepast is -> UITDELEN</p>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-<div class="row">
-
-    @Html.LabelFor(u => u.EersteVertaaldeTekst, Model.EersteVertaaldeTekst, new { @id = "EersteVertaaldeTekst", @class = "form-control" })
-</div>
-<div class="row">
-
-    <div class="input-group">
-        @Html.LabelFor(u => u.NieuweTekst, Model.NieuweTekst, new { @id = "NieuweTekst", @class = "form-control" })
-    </div>
-</div>
-
-    <p>@Model.OriginalTekst</p>
-
-    <h1> Vertaald naar</h1>
-
-    <p>@Model.NieuweTekst</p>
-<div class="row">
-    <input type="submit" class="btn btn-success" value="Vertaal" />
-</div>
 }
